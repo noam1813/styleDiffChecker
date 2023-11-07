@@ -12,6 +12,7 @@ describe('aaa', () => {
 
     browser = await puppeteer.launch({ headless: 'new' })
     page = await browser.newPage()
+    await page.goto(url);
 
     const parentDir = './screenshot/'
 
@@ -32,10 +33,10 @@ describe('aaa', () => {
       .compareTo(imageBefore)
       .ignoreColors()
       .onComplete((data) => {
-        console.log(data.getBuffer)
         if (data.getBuffer) {
           const buffer = data.getBuffer(true)
           fs.writeFileSync(latestDir + 'diff.png', buffer)
+          misMatchPercentage = Number(data.misMatchPercentage);
         }
       })
   })
@@ -43,7 +44,6 @@ describe('aaa', () => {
     browser.close()
   })
   it('some test description', () => {
-    // 差分許容率はとりあえず１％にしておきます。
-    expect(misMatchPercentage).toBe(0)
+    expect(misMatchPercentage).toBeLessThanOrEqual(0)
   })
 })
