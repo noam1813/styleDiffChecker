@@ -130,4 +130,4 @@ dist
 .pnp.*
 
 # Ignore all files in screenshot/new
-screenshot/new/*
+screenshot/*
